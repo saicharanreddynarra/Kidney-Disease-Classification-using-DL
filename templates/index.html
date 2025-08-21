@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Kidney Disease Classification</title>
+
+  <!-- Tailwind 3 CDN with dark mode enabled -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('/static/images/hospital_bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      min-height: 100vh;
+      position: relative;
+    }
+    body::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(255, 255, 255, 0.75); /* Light mode overlay */
+      backdrop-filter: blur(6px);
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* Dark mode overlay fix */
+    html.dark body::before {
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+    @keyframes fadeInUp {
+      from {opacity:0; transform:translateY(30px);}
+      to {opacity:1; transform:translateY(0);}
+    }
+    .fade-in-up {animation:fadeInUp 1s ease forwards;}
+    .top-header img {transition: transform 0.3s ease;}
+    .top-header img:hover {transform: rotate(15deg);}
+    .kidney-img {
+      transition: transform 0.3s ease;
+      object-fit: contain;
+      object-position: center;
+      max-width: 160px;
+    }
+    .kidney-img:hover {transform: scale(1.05) rotate(2deg);}
+    #input-section {opacity:0; max-height:0; overflow:hidden; transition: opacity 0.75s ease, max-height 0.75s ease;}
+    #input-section.visible {opacity:1; max-height:2000px; overflow:visible;}
+    #hero-section {overflow:hidden; transition:opacity 0.75s ease, max-height 0.75s ease;}
+    #hero-section.hidden {opacity:0; max-height:0; padding:0; margin:0;}
+    #chat-window {height: 450px !important;}
+  </style>
+</head>
+<body class="relative bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+
+  <!-- Header -->
+  <header class="top-header relative z-10 flex items-center gap-4 justify-center pt-8">
+    <img src="/static/images/logo.png" alt="Kidney Logo" class="w-14 h-14" />
+    <h1 class="text-3xl font-extrabold text-gray-800 dark:text-white tracking-wide">Kidney Disease Classification</h1>
+    <button id="dark-mode-toggle"
+      class="ml-4 px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm text-gray-800 dark:text-gray-200 focus:outline-none">
+      <!-- Button text will be set by JS -->
+    </button>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="hero-section" class="relative z-10 text-center mt-10 fade-in-up px-6 max-w-4xl mx-auto">
+    <h2 class="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white leading-tight">
+      AI-Powered CKD Detection & Staging
+    </h2>
+    <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-700 dark:text-gray-300">
+      Predict Chronic Kidney Disease quickly from either <strong>clinical test data</strong> or <strong>kidney MRI scans</strong>.
+      Our AI also determines the stage to assist treatment planning.
+    </p>
+    <button id="get-started-btn"
+      class="mt-8 inline-block bg-gradient-to-r from-blue-500 to-green-500 text-white px-8 py-3 font-semibold rounded-lg shadow-lg hover:from-blue-600 hover:to-green-600 transform hover:-translate-y-1 focus:outline-none focus:ring-4 focus:ring-blue-400">
+      Get Started ↓
+    </button>
+  </section>
+
+  <!-- Prediction Options -->
+  <main id="input-section"
+    class="relative z-5 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-5xl mx-auto px-6 py-10 mt-16 flex flex-col lg:flex-row items-center justify-between gap-6">
+
+    <img src="/static/images/ckd_kidney.jpg" alt="Chronic Kidney"
+      class="kidney-img hidden lg:block max-w-[100px] lg:max-w-[140px] h-auto rounded-xl shadow-md flex-shrink-0"/>
+
+    <section class="middle-content flex-1 text-center lg:text-left px-4 max-w-lg">
+      <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-3">Choose an Input Method</h3>
+      <p class="text-gray-600 dark:text-gray-300 mb-6">Select how you want to start your prediction.</p>
+      <a href="/clinical_input"
+         class="block w-full lg:w-auto mb-4 bg-blue-500 hover:bg-blue-600 dark:bg-blue-700 dark:hover:bg-blue-800 text-white font-semibold rounded-lg px-6 py-3 shadow-md text-center">
+         Enter Clinical Data
+      </a>
+      <a href="/image_input"
+         class="block w-full lg:w-auto bg-green-500 hover:bg-green-600 dark:bg-green-700 dark:hover:bg-green-800 text-white font-semibold rounded-lg px-6 py-3 shadow-md text-center">
+         Upload Kidney Image
+      </a>
+    </section>
+
+    <img src="/static/images/healthy_kidney.jpg" alt="Healthy Kidney"
+      class="kidney-img hidden lg:block max-w-[100px] lg:max-w-[140px] h-auto rounded-xl shadow-md flex-shrink-0"/>
+  </main>
+
+  <!-- Chatbot Icon -->
+  <button id="chatbot-icon" aria-label="Toggle CKD Chatbot"
+    class="fixed bottom-6 right-6 w-16 h-16 bg-blue-500 rounded-full shadow-lg flex items-center justify-center hover:bg-blue-600 transform hover:scale-110 transition">
+    <img src="/static/images/robot_icon.png" alt="" class="w-10 h-10" />
+  </button>
+
+  <!-- Chatbot Widget -->
+  <section id="chat-window"
+    class="hidden fixed bottom-28 right-6 w-[420px] h-[450px] bg-gray-50 dark:bg-gray-700 rounded-xl shadow-2xl flex flex-col overflow-hidden z-50">
+    <header class="bg-blue-500 text-white p-4 font-bold text-center">💬 CKD Chatbot</header>
+    <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 bg-white dark:bg-gray-800"></div>
+    <form id="chat-form" onsubmit="event.preventDefault(); sendMessage();" 
+          class="flex items-center p-2 bg-gray-100 dark:bg-gray-600 gap-2 border-t border-gray-200 dark:border-gray-500">
+      <input type="text" id="userInput" placeholder="Type a message..." aria-label="Enter your message"
+             class="flex-grow p-2 border border-gray-300 dark:border-gray-500 rounded-lg text-sm focus:outline-none focus:ring focus:border-blue-500" />
+      <button id="sendBtn" type="submit"
+              class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Send</button>
+    </form>
+  </section>
+
+  <script>
+    const toggleBtn = document.getElementById('dark-mode-toggle');
+    const htmlEl = document.documentElement;
+
+    function updateToggleButton() {
+      if (htmlEl.classList.contains('dark')) {
+        toggleBtn.textContent = 'Enable Light Mode';
+      } else {
+        toggleBtn.textContent = 'Enable Dark Mode';
+      }
+    }
+
+    // Initial load based on saved preference
+    if (localStorage.getItem('theme') === 'dark' || 
+       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      htmlEl.classList.add('dark');
+    }
+
+    updateToggleButton();
+
+    toggleBtn.addEventListener('click', () => {
+      htmlEl.classList.toggle('dark');
+      if (htmlEl.classList.contains('dark')) {
+        localStorage.setItem('theme', 'dark');
+      } else {
+        localStorage.setItem('theme', 'light');
+      }
+      updateToggleButton();
+    });
+
+    // Chat functions
+    function appendMessage(message, sender) {
+      const chatMessages = document.getElementById('chatMessages');
+      const msgDiv = document.createElement('div');
+      if (sender === 'user') {
+        msgDiv.className = "flex justify-end";
+        msgDiv.innerHTML = `<div class="bg-green-500 text-white px-4 py-2 rounded-2xl max-w-xs break-words">${message}</div>`;
+      } else {
+        msgDiv.className = "flex justify-start";
+        msgDiv.innerHTML = `<div class="bg-gray-200 dark:bg-gray-600 dark:text-gray-100 text-gray-800 px-4 py-2 rounded-2xl max-w-xs break-words">${message}</div>`;
+      }
+      chatMessages.appendChild(msgDiv);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    async function sendMessage() {
+      const inputElem = document.getElementById("userInput");
+      const message = inputElem.value.trim();
+      if (!message) return;
+      appendMessage(message, 'user');
+      inputElem.value = "";
+      try {
+        const response = await fetch("/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await response.json();
+        appendMessage(data.response, 'bot');
+      } catch {
+        appendMessage("Sorry, something went wrong.", 'bot');
+      }
+    }
+
+    document.getElementById("chatbot-icon").addEventListener("click", () => {
+      document.getElementById("chat-window").classList.toggle("hidden");
+    });
+
+    document.getElementById('get-started-btn').addEventListener('click', () => {
+      document.getElementById('hero-section').classList.add('hidden');
+      const section = document.getElementById('input-section');
+      section.classList.add('visible');
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  </script>
+
+</body>
+</html>

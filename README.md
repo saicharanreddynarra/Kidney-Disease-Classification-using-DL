@@ -48,20 +48,21 @@ pip install -r requirements.txt
 ├── ckd_dataset.csv
 ├── requirements.txt
 ├── trained_models/
-│ ├── ckd_presence_model.joblib
-│ ├── ckd_stage_model.joblib
-│ └── kidney_model2.h5
+│   ├── ckd_presence_model.joblib
+│   ├── ckd_stage_model.joblib
+│   └── kidney_model2.h5
 ├── static/
-│ ├── images/
-│ ├── uploads/
-│ └── reports/
+│   ├── images/
+│   ├── uploads/
+│   └── reports/
 ├── templates/
-│ ├── index.html
-│ ├── clinical_input.html
-│ ├── clinical_output.html
-│ ├── image_input.html
-│ └── image_result.html
+│   ├── index.html
+│   ├── clinical_input.html
+│   ├── clinical_output.html
+│   ├── image_input.html
+│   └── image_result.html
 └── README.md
+
 
 
 ## License

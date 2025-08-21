@@ -15,18 +15,13 @@ A user-friendly, AI-powered web app to detect and stage Chronic Kidney Disease (
 - **Accessible UI:** Clean, mobile-friendly, responsive design (built with Tailwind CSS & Flask).
 - **User Prediction History:** (Optional) Store and revisit recent predictions locally or per user.
 
----
-
-## Demo
-
-> **Add screenshots or animated GIFs here showing the UI, prediction, and report download pages.**
-
----
 
 ## Getting Started
 
 ### 1. **Clone the Repo**
  git clone https://github.com/saicharanreddynarra/Kidney-Disease-Classification-using-DL.git
+ 
+ 
  cd Kidney-Disease-Classification-using-DL
 
 

@@ -43,7 +43,7 @@ pip install -r requirements.txt
 
 ## File Structure
 
-'''project/
+project/
 ├── app.py
 ├── ckd_dataset.csv
 ├── requirements.txt
@@ -62,7 +62,8 @@ pip install -r requirements.txt
 │   ├── clinical_output.html
 │   ├── image_input.html
 │   └── image_result.html
-└── README.md'''
+└── README.md
+
 
 
 

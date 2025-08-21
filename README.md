@@ -43,10 +43,11 @@ pip install -r requirements.txt
 
 ## File Structure
 
- project/
+project/
 ├── app.py
 ├── ckd_dataset.csv
 ├── requirements.txt
+├── .env.example
 ├── trained_models/
 │   ├── ckd_presence_model.joblib
 │   ├── ckd_stage_model.joblib
@@ -62,6 +63,7 @@ pip install -r requirements.txt
 │   ├── image_input.html
 │   └── image_result.html
 └── README.md
+
 
 
 
